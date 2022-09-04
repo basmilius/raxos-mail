@@ -1,0 +1,27 @@
+{
+	"name": "raxos/mail",
+	"description": "Mail features.",
+	"license": "mit",
+	"minimum-stability": "stable",
+	"type": "library",
+	"authors": [
+		{
+			"name": "Bas Milius",
+			"email": "bas@mili.us"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"Raxos\\Mail\\": "src/Raxos/Mail"
+		}
+	},
+	"config": {
+		"platform": {
+			"php": "8.1"
+		}
+	},
+	"require": {
+		"jetbrains/phpstorm-attributes": "^1.0",
+        "raxos/foundation": "*"
+	}
+}
