@@ -108,7 +108,7 @@ final class PublicSuffixList
     }
 
     /**
-     * Gets the domainname and suffix.
+     * Gets the domain and suffix.
      *
      * @param string $domain
      *
@@ -119,19 +119,21 @@ final class PublicSuffixList
     public static function parseDomain(string $domain): ?array
     {
         foreach (self::$suffixes as $tld) {
-            if (str_ends_with($domain, '.' . $tld)) {
-                return [
-                    preg_replace("/.{$tld}$/", '', $domain),
-                    $tld
-                ];
+            if (!str_ends_with($domain, '.' . $tld)) {
+                continue;
             }
+
+            return [
+                preg_replace("/.{$tld}$/", '', $domain),
+                $tld
+            ];
         }
 
         return [$domain, null];
     }
 
     /**
-     * Validates the given domainname and provides suggestios when it is not valid.
+     * Validates the given domain and provides suggestions when it is not valid.
      *
      * @param string $domain
      * @param string[]|null $suggestions

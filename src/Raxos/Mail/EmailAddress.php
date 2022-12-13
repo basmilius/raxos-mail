@@ -46,7 +46,7 @@ class EmailAddress implements JsonSerializable, Stringable
     }
 
     /**
-     * Validates the e-mailaddress.
+     * Validates the email-address.
      *
      * @return EmailAddressResult
      * @throws EmailAddressException
@@ -86,7 +86,7 @@ class EmailAddress implements JsonSerializable, Stringable
             $suggestions[] = EmailAddress::fromString("{$this->username}@{$domain}");
         } else if (!$isKnownSuffix) {
             $suggestions = array_map(fn(string $domain) => "{$this->username}@{$domain}", $suffixSuggestions);
-            $suggestions = array_map(fn(string $address) => EmailAddress::fromString($address), $suggestions);
+            $suggestions = array_map(EmailAddress::fromString(...), $suggestions);
         }
 
         return new EmailAddressResultWithSuggestions($this, $suggestions);
@@ -123,7 +123,7 @@ class EmailAddress implements JsonSerializable, Stringable
     public static function fromString(string $email): static
     {
         if (substr_count($email, '@') !== 1) {
-            throw new EmailAddressException('An e-mailaddress should have exactly one at-symbol.', EmailAddressException::ERR_INVALID);
+            throw new EmailAddressException('An email-address should have exactly one at-symbol.', EmailAddressException::ERR_INVALID);
         }
 
         [$username, $domain] = explode('@', $email);
