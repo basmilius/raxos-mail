@@ -22,7 +22,7 @@ use function substr_count;
 class EmailAddress implements JsonSerializable, Stringable
 {
 
-    private const COMMON_PROVIDERS = [
+    private const array COMMON_PROVIDERS = [
         'outlook',
         'gmail',
         'icloud',

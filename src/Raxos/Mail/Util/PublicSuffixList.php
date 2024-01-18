@@ -35,7 +35,7 @@ use function usort;
 final class PublicSuffixList
 {
 
-    private const PRIORITY_SUFFIXES = ['com'];
+    private const array PRIORITY_SUFFIXES = ['com'];
 
     private static array $suffixes = [];
 

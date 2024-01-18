@@ -15,8 +15,8 @@ use Raxos\Foundation\Error\RaxosException;
 class EmailAddressException extends RaxosException
 {
 
-    public const ERR_INVALID = 1;
-    public const ERR_INVALID_HOSTNAME = 2;
-    public const ERR_INVALID_USERNAME = 4;
+    public const int ERR_INVALID = 1;
+    public const int ERR_INVALID_HOSTNAME = 2;
+    public const int ERR_INVALID_USERNAME = 4;
 
 }
