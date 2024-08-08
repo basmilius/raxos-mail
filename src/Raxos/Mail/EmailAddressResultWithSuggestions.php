@@ -10,7 +10,7 @@ use JetBrains\PhpStorm\ArrayShape;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Mail
- * @since
+ * @since 1.0.0
  */
 final class EmailAddressResultWithSuggestions extends EmailAddressResult
 {
@@ -40,7 +40,7 @@ final class EmailAddressResultWithSuggestions extends EmailAddressResult
         'email' => 'Raxos\Mail\EmailAddress',
         'suggestions' => 'Raxos\Mail\EmailAddress[]'
     ])]
-    public final function jsonSerialize(): array
+    public function jsonSerialize(): array
     {
         return [
             'email' => $this->address,

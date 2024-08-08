@@ -53,7 +53,7 @@ final class PublicSuffixList
             return;
         }
 
-        $h = fopen(__DIR__ . '/../../../../public-suffix-list.dat', 'r');
+        $h = fopen(__DIR__ . '/../../../../public-suffix-list.dat', 'rb');
 
         if (!$h) {
             throw new RuntimeException('Could not open public suffix file.', 500);
@@ -90,21 +90,26 @@ final class PublicSuffixList
         $suffix = array_pop($parts);
         $domain = implode('.', $parts);
 
-        $suffixes = array_map(fn(string $s) => [$suffix === $s ? -1 : levenshtein($suffix, $s), $s], self::$suffixes);
-        usort($suffixes, fn(array $a, array $b): int => $a[0] <=> $b[0]);
+        $suffixes = array_map(static fn(string $s) => [$suffix === $s ? -1 : levenshtein($suffix, $s), $s], self::$suffixes);
+        usort($suffixes, static fn(array $a, array $b): int => $a[0] <=> $b[0]);
 
         $suffixes = array_slice($suffixes, 0, $count);
-        usort($suffixes, function (array $a, array $b): int {
-            $ap = in_array($a[1], self::PRIORITY_SUFFIXES);
-            $bp = in_array($b[1], self::PRIORITY_SUFFIXES);
+        usort($suffixes, static function (array $a, array $b): int {
+            $ap = in_array($a[1], self::PRIORITY_SUFFIXES, true);
+            $bp = in_array($b[1], self::PRIORITY_SUFFIXES, true);
 
-            if ($ap && !$bp) return -1;
-            if ($bp && !$ap) return 1;
+            if ($ap && !$bp) {
+                return -1;
+            }
+            
+            if ($bp && !$ap) {
+                return 1;
+            }
 
-            return array_search($b[1], self::$suffixes) <=> array_search($a[1], self::$suffixes);
+            return array_search($b[1], self::$suffixes, true) <=> array_search($a[1], self::$suffixes, true);
         });
 
-        return array_map(fn(array $suffix): string => "{$domain}.{$suffix[1]}", $suffixes);
+        return array_map(static fn(array $suffix): string => "{$domain}.{$suffix[1]}", $suffixes);
     }
 
     /**

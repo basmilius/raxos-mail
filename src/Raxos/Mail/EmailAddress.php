@@ -19,10 +19,11 @@ use function substr_count;
  * @package Raxos\Mail
  * @since 1.0.0
  */
-class EmailAddress implements JsonSerializable, Stringable
+readonly class EmailAddress implements JsonSerializable, Stringable
 {
 
     private const array COMMON_PROVIDERS = [
+        'hotmail',
         'outlook',
         'gmail',
         'icloud',
@@ -39,8 +40,8 @@ class EmailAddress implements JsonSerializable, Stringable
      * @since 1.0.0
      */
     public function __construct(
-        public readonly string $username,
-        public readonly string $domain
+        public string $username,
+        public string $domain
     )
     {
     }
@@ -78,15 +79,15 @@ class EmailAddress implements JsonSerializable, Stringable
             $suggestions = array_map(function (string $domain) use ($commonProvider, $provider): EmailAddress {
                 $domain = str_replace($provider, $commonProvider, $domain);
 
-                return EmailAddress::fromString("{$this->username}@{$domain}");
+                return self::fromString("{$this->username}@{$domain}");
             }, $suffixSuggestions);
         } else if ($commonProvider !== null) {
             $domain = str_replace($provider, $commonProvider, $this->domain);
 
-            $suggestions[] = EmailAddress::fromString("{$this->username}@{$domain}");
+            $suggestions[] = self::fromString("{$this->username}@{$domain}");
         } else if (!$isKnownSuffix) {
             $suggestions = array_map(fn(string $domain) => "{$this->username}@{$domain}", $suffixSuggestions);
-            $suggestions = array_map(EmailAddress::fromString(...), $suggestions);
+            $suggestions = array_map(self::fromString(...), $suggestions);
         }
 
         return new EmailAddressResultWithSuggestions($this, $suggestions);

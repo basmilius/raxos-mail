@@ -23,7 +23,9 @@ final class EmailAddressResultSeemsOkay extends EmailAddressResult
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function __construct(public readonly EmailAddress $address)
+    public function __construct(
+        public readonly EmailAddress $address
+    )
     {
     }
 
@@ -35,7 +37,7 @@ final class EmailAddressResultSeemsOkay extends EmailAddressResult
     #[ArrayShape([
         'email' => EmailAddress::class
     ])]
-    public final function jsonSerialize(): array
+    public function jsonSerialize(): array
     {
         return [
             'email' => $this->address
