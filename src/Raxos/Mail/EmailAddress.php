@@ -42,9 +42,7 @@ readonly class EmailAddress implements JsonSerializable, Stringable
     public function __construct(
         public string $username,
         public string $domain
-    )
-    {
-    }
+    ) {}
 
     /**
      * Validates the email-address.
@@ -81,11 +79,11 @@ readonly class EmailAddress implements JsonSerializable, Stringable
 
                 return self::fromString("{$this->username}@{$domain}");
             }, $suffixSuggestions);
-        } else if ($commonProvider !== null) {
+        } elseif ($commonProvider !== null) {
             $domain = str_replace($provider, $commonProvider, $this->domain);
 
             $suggestions[] = self::fromString("{$this->username}@{$domain}");
-        } else if (!$isKnownSuffix) {
+        } elseif (!$isKnownSuffix) {
             $suggestions = array_map(fn(string $domain) => "{$this->username}@{$domain}", $suffixSuggestions);
             $suggestions = array_map(self::fromString(...), $suggestions);
         }

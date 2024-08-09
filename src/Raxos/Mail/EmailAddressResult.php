@@ -12,6 +12,4 @@ use JsonSerializable;
  * @package Raxos\Mail
  * @since 1.0.0
  */
-abstract class EmailAddressResult implements JsonSerializable
-{
-}
+abstract class EmailAddressResult implements JsonSerializable {}

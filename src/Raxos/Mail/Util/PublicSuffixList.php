@@ -101,7 +101,7 @@ final class PublicSuffixList
             if ($ap && !$bp) {
                 return -1;
             }
-            
+
             if ($bp && !$ap) {
                 return 1;
             }

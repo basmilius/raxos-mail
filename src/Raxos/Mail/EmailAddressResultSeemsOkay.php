@@ -25,9 +25,7 @@ final class EmailAddressResultSeemsOkay extends EmailAddressResult
      */
     public function __construct(
         public readonly EmailAddress $address
-    )
-    {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

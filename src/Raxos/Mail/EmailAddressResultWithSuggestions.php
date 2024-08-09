@@ -27,9 +27,7 @@ final class EmailAddressResultWithSuggestions extends EmailAddressResult
     public function __construct(
         public readonly EmailAddress $address,
         public readonly array $suggestions
-    )
-    {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
