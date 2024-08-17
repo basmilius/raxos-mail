@@ -3,20 +3,32 @@ declare(strict_types=1);
 
 namespace Raxos\Mail;
 
-use Raxos\Foundation\Error\RaxosException;
+use Raxos\Foundation\Error\{ExceptionId, RaxosException};
 
 /**
  * Class EmailAddressException
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Mail
- * @since 1.0.0
+ * @since 1.0.17
  */
-class EmailAddressException extends RaxosException
+final class EmailAddressException extends RaxosException
 {
 
-    public const int ERR_INVALID = 1;
-    public const int ERR_INVALID_HOSTNAME = 2;
-    public const int ERR_INVALID_USERNAME = 4;
+    /**
+     * Returns an invalid exception.
+     *
+     * @return self
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.17
+     */
+    public static function invalid(): self
+    {
+        return new self(
+            ExceptionId::for(__METHOD__),
+            'email_invalid',
+            'An email-address should have exactly one at-symbol.'
+        );
+    }
 
 }

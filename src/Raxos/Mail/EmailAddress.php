@@ -122,7 +122,7 @@ readonly class EmailAddress implements JsonSerializable, Stringable
     public static function fromString(string $email): static
     {
         if (substr_count($email, '@') !== 1) {
-            throw new EmailAddressException('An email-address should have exactly one at-symbol.', EmailAddressException::ERR_INVALID);
+            throw EmailAddressException::invalid();
         }
 
         [$username, $domain] = explode('@', $email);
