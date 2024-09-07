@@ -27,7 +27,7 @@ final class EmailAddressException extends RaxosException
         return new self(
             ExceptionId::for(__METHOD__),
             'email_invalid',
-            'An email-address should have exactly one at-symbol.'
+            'An email-address should have exactly one @-symbol.'
         );
     }
 
