@@ -1,26 +1,26 @@
 {
-	"name": "raxos/mail",
-	"description": "Mail features.",
-	"license": "mit",
+    "name": "raxos/mail",
+    "description": "Mail features.",
+    "license": "mit",
     "minimum-stability": "dev",
-    "prefer-stable" : true,
-	"type": "library",
-	"authors": [
-		{
-			"name": "Bas Milius",
-			"email": "bas@mili.us"
-		}
-	],
-	"autoload": {
-		"psr-4": {
-			"Raxos\\Mail\\": "src/Raxos/Mail"
-		}
-	},
-	"config": {
-		"platform": {
-			"php": "8.4"
-		}
-	},
+    "prefer-stable": true,
+    "type": "library",
+    "authors": [
+        {
+            "name": "Bas Milius",
+            "email": "bas@mili.us"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Raxos\\Mail\\": "src/Raxos/Mail"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "8.4"
+        }
+    },
     "repositories": [
         {
             "type": "path",
@@ -28,8 +28,8 @@
             "symlink": true
         }
     ],
-	"require": {
-		"jetbrains/phpstorm-attributes": "^1.2",
+    "require": {
+        "jetbrains/phpstorm-attributes": "^1.2",
         "raxos/foundation": "*"
-	}
+    }
 }
