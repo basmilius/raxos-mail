@@ -13,7 +13,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Raxos\\Mail\\": "src/Raxos/Mail"
+            "Raxos\\Mail\\": "src/"
         }
     },
     "config": {
