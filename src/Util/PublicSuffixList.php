@@ -53,7 +53,7 @@ final class PublicSuffixList
             return;
         }
 
-        $h = fopen(__DIR__ . '/../../../../public-suffix-list.dat', 'rb');
+        $h = fopen(__DIR__ . '/../../public-suffix-list.dat', 'rb');
 
         if (!$h) {
             throw new RuntimeException('Could not open public suffix file.', 500);
