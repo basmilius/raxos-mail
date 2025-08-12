@@ -93,7 +93,7 @@ readonly class EmailAddress implements JsonSerializable, Stringable
 
     /**
      * {@inheritdoc}
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
     public final function jsonSerialize(): string
@@ -103,7 +103,7 @@ readonly class EmailAddress implements JsonSerializable, Stringable
 
     /**
      * {@inheritdoc}
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
     public final function __toString(): string

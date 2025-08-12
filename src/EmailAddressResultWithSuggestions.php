@@ -31,7 +31,7 @@ final class EmailAddressResultWithSuggestions extends EmailAddressResult
 
     /**
      * {@inheritdoc}
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
     #[ArrayShape([
