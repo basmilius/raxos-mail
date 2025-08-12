@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Raxos\Mail;
+namespace Raxos\Mail\Error;
 
 use Raxos\Foundation\Error\{ExceptionId, RaxosException};
 
@@ -9,7 +9,7 @@ use Raxos\Foundation\Error\{ExceptionId, RaxosException};
  * Class EmailAddressException
  *
  * @author Bas Milius <bas@mili.us>
- * @package Raxos\Mail
+ * @package Raxos\Mail\Error
  * @since 1.0.17
  */
 final class EmailAddressException extends RaxosException
