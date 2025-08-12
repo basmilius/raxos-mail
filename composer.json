@@ -1,6 +1,6 @@
 {
     "name": "raxos/mail",
-    "description": "Mail features.",
+    "description": "Mailing system for Raxos.",
     "license": "mit",
     "minimum-stability": "dev",
     "prefer-stable": true,
