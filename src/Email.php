@@ -65,12 +65,12 @@ final readonly class Email implements JsonSerializable, Stringable
      *
      * @param string $email
      *
-     * @return static
+     * @return self
      * @throws EmailAddressException
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */
-    public static function fromString(string $email): static
+    public static function fromString(string $email): self
     {
         if (substr_count($email, '@') !== 1) {
             throw EmailAddressException::invalid();
