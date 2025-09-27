@@ -22,9 +22,6 @@ use function str_starts_with;
 use function trim;
 use function usort;
 
-// todo(Bas): Probably should move this file to raxos/foundation as we
-//  could probably use this for other features in raxos.
-
 /**
  * Class PublicSuffixList
  *

@@ -5,8 +5,8 @@ namespace Raxos\Mail;
 
 use Postmark\Models\{PostmarkAttachment, PostmarkException};
 use Postmark\PostmarkClient;
-use Raxos\Mail\Contract\MailerInterface;
-use Raxos\Mail\Error\MailerException;
+use Raxos\Contract\Mail\MailerInterface;
+use Raxos\Mail\Error\MailerFailedException;
 use SensitiveParameter;
 use function array_filter;
 use function array_map;
@@ -96,7 +96,7 @@ final readonly class Postmark implements MailerInterface
 
             return true;
         } catch (PostmarkException $err) {
-            throw MailerException::failed($err);
+            throw new MailerFailedException($err);
         }
     }
 

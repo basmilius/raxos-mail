@@ -4,7 +4,8 @@ declare(strict_types=1);
 namespace Raxos\Mail;
 
 use JsonSerializable;
-use Raxos\Mail\Error\EmailAddressException;
+use Raxos\Contract\Mail\EmailAddressExceptionInterface;
+use Raxos\Mail\Error\InvalidEmailAddressException;
 use Stringable;
 use function explode;
 use function str_contains;
@@ -66,14 +67,14 @@ final readonly class Email implements JsonSerializable, Stringable
      * @param string $email
      *
      * @return self
-     * @throws EmailAddressException
+     * @throws EmailAddressExceptionInterface
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */
     public static function fromString(string $email): self
     {
         if (substr_count($email, '@') !== 1) {
-            throw EmailAddressException::invalid();
+            throw new InvalidEmailAddressException();
         }
 
         [$local, $domain] = explode('@', $email);

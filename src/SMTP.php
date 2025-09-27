@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Raxos\Mail;
 
 use PHPMailer\PHPMailer\{Exception, PHPMailer};
-use Raxos\Mail\Contract\MailerInterface;
-use Raxos\Mail\Error\MailerException;
+use Raxos\Contract\Mail\MailerInterface;
+use Raxos\Mail\Error\MailerFailedException;
 use SensitiveParameter;
 use function Raxos\Foundation\isTesting;
 
@@ -91,7 +91,7 @@ final readonly class SMTP implements MailerInterface
 
             return $mailer->send();
         } catch (Exception $err) {
-            throw MailerException::failed($err);
+            throw new MailerFailedException($err);
         }
     }
 

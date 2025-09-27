@@ -7,8 +7,8 @@ use Mailgun\Mailgun as MailgunClient;
 use Mailgun\Message\Exceptions\LimitExceeded;
 use Mailgun\Message\MessageBuilder;
 use Psr\Http\Client\ClientExceptionInterface;
-use Raxos\Mail\Contract\MailerInterface;
-use Raxos\Mail\Error\MailerException;
+use Raxos\Contract\Mail\MailerInterface;
+use Raxos\Mail\Error\MailerFailedException;
 use SensitiveParameter;
 use function Raxos\Foundation\isTesting;
 
@@ -78,7 +78,7 @@ final readonly class Mailgun implements MailerInterface
 
             return true;
         } catch (ClientExceptionInterface|LimitExceeded $err) {
-            throw MailerException::failed($err);
+            throw new MailerFailedException($err);
         }
     }
 

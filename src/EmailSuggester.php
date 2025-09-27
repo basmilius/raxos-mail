@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Mail;
 
-use Raxos\Mail\Error\EmailAddressException;
+use Raxos\Contract\Mail\EmailAddressExceptionInterface;
 use Raxos\Mail\Util\PublicSuffixList;
 use function array_map;
 use function explode;
@@ -29,7 +29,7 @@ final readonly class EmailSuggester
      * @param Email|string $email
      *
      * @return Email[]|null
-     * @throws EmailAddressException
+     * @throws EmailAddressExceptionInterface
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */
