@@ -8,8 +8,10 @@ use Raxos\Contract\Mail\EmailAddressExceptionInterface;
 use Raxos\Mail\Error\InvalidEmailAddressException;
 use Stringable;
 use function explode;
+use function filter_var;
 use function str_contains;
 use function substr_count;
+use const FILTER_VALIDATE_EMAIL;
 
 /**
  * Class Email
@@ -74,6 +76,10 @@ final readonly class Email implements JsonSerializable, Stringable
     public static function fromString(string $email): self
     {
         if (substr_count($email, '@') !== 1) {
+            throw new InvalidEmailAddressException();
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new InvalidEmailAddressException();
         }
 
