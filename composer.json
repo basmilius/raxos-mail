@@ -34,7 +34,7 @@
     "require": {
         "jetbrains/phpstorm-attributes": "^1.2",
         "mailgun/mailgun-php": "^v4.3",
-        "phpmailer/phpmailer": "^v6.10",
+        "phpmailer/phpmailer": "^v7.0",
         "raxos/foundation": "*",
         "wildbit/postmark-php": "^v7.0"
     }
