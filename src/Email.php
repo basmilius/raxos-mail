@@ -86,7 +86,7 @@ final readonly class Email implements JsonSerializable, Stringable
         [$local, $domain] = explode('@', $email);
 
         if (str_contains($local, '+')) {
-            [$username, $tag] = explode('+', $local);
+            [$username, $tag] = explode('+', $local, 2);
 
             return new self($username, $domain, $tag);
         }

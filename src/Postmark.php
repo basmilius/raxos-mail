@@ -77,21 +77,17 @@ final readonly class Postmark implements MailerInterface
 
         try {
             $this->client->sendEmail(
-                (string)$mail->sender,
-                $to,
-                $mail->subject,
-                $mail->html,
-                $mail->text,
-                null,
-                false,
-                (string)$mail->sender,
-                $cc,
-                $bcc,
-                null,
-                $attachments,
-                null,
-                null,
-                'outbound'
+                from: (string)$mail->sender,
+                to: $to,
+                subject: $mail->subject,
+                htmlBody: $mail->html,
+                textBody: $mail->text,
+                trackOpens: false,
+                replyTo: (string)$mail->sender,
+                cc: $cc,
+                bcc: $bcc,
+                attachments: $attachments,
+                messageStream: 'outbound'
             );
 
             return true;

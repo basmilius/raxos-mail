@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Raxos\Mail;
 
+use Stringable;
+
 /**
  * Class Sender
  *
@@ -10,21 +12,31 @@ namespace Raxos\Mail;
  * @package Raxos\Mail
  * @since 2.0.0
  */
-final readonly class Sender extends Recipient
+final readonly class Sender implements Stringable
 {
 
     /**
      * Sender constructor.
      *
-     * @param string $email
+     * @param Email|string $email
      * @param string $name
      *
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */
-    public function __construct(string $email, string $name)
+    public function __construct(
+        public Email|string $email,
+        public string $name
+    ) {}
+
+    /**
+     * {@inheritdoc}
+     * @author Bas Milius <bas@mili.us>
+     * @since 2.0.0
+     */
+    public function __toString(): string
     {
-        parent::__construct($email, $name);
+        return "{$this->name} <{$this->email}>";
     }
 
 }
