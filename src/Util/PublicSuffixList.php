@@ -16,7 +16,6 @@ use function fopen;
 use function implode;
 use function in_array;
 use function levenshtein;
-use function preg_replace;
 use function str_ends_with;
 use function str_starts_with;
 use function trim;
@@ -122,17 +121,18 @@ final class PublicSuffixList
      *
      * @return array|null
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
+     * @since 3.2.0
      */
     public static function parseDomain(string $domain): ?array
     {
+        $normalizedDomain = strtolower($domain);
         foreach (self::$suffixes as $tld) {
-            if (!str_ends_with($domain, '.' . $tld)) {
+            if (!str_ends_with($normalizedDomain, '.' . $tld)) {
                 continue;
             }
 
             return [
-                preg_replace("/.{$tld}$/", '', $domain),
+                substr($domain, 0, -strlen($tld) - 1),
                 $tld
             ];
         }

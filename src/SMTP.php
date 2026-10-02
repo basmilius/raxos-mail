@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Mail;
 
-use PHPMailer\PHPMailer\{PHPMailer};
+use PHPMailer\PHPMailer\PHPMailer;
 use Raxos\Contract\Mail\MailerInterface;
 use Raxos\Mail\Error\MailerFailedException;
 use SensitiveParameter;
@@ -47,7 +47,7 @@ final readonly class SMTP implements MailerInterface
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
-     * @since 2.0.0
+     * @since 3.2.0
      */
     public function send(Mail $mail): bool
     {
@@ -57,6 +57,9 @@ final readonly class SMTP implements MailerInterface
 
         try {
             $mailer = $this->mailer ?? new PHPMailer();
+            $mailer->clearAllRecipients();
+            $mailer->clearReplyTos();
+            $mailer->clearAttachments();
             $mailer->isHTML();
             $mailer->isSMTP();
             $mailer->SMTPAuth = true;
@@ -87,6 +90,7 @@ final readonly class SMTP implements MailerInterface
 
             $mailer->Subject = $mail->subject;
             $mailer->msgHTML($mail->html);
+            $mailer->AltBody = $mail->text;
 
             foreach ($mail->attachments as $attachment) {
                 $mailer->addStringAttachment($attachment->content, $attachment->name);

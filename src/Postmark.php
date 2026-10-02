@@ -44,7 +44,7 @@ final readonly class Postmark implements MailerInterface
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
-     * @since 2.0.0
+     * @since 3.2.0
      */
     public function send(Mail $mail): bool
     {
@@ -60,10 +60,6 @@ final readonly class Postmark implements MailerInterface
             $attachment->content,
             $attachment->name
         ), $mail->attachments);
-
-        if (empty($to)) {
-            $to = null;
-        }
 
         if (empty($cc)) {
             $cc = null;
