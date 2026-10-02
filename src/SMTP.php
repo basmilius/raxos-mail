@@ -29,9 +29,10 @@ final readonly class SMTP implements MailerInterface
      * @param string $password
      * @param string $helo
      * @param string $hostname
+     * @param PHPMailer|null $mailer
      *
      * @author Bas Milius <bas@mili.us>
-     * @since 2.0.0
+     * @since 3.2.0
      */
     public function __construct(
         #[SensitiveParameter] public string $host,
@@ -39,7 +40,8 @@ final readonly class SMTP implements MailerInterface
         #[SensitiveParameter] public string $username = '',
         #[SensitiveParameter] public string $password = '',
         public string $helo = '',
-        public string $hostname = ''
+        public string $hostname = '',
+        private ?PHPMailer $mailer = null
     ) {}
 
     /**
@@ -54,7 +56,7 @@ final readonly class SMTP implements MailerInterface
         }
 
         try {
-            $mailer = new PHPMailer();
+            $mailer = $this->mailer ?? new PHPMailer();
             $mailer->isHTML();
             $mailer->isSMTP();
             $mailer->SMTPAuth = true;
@@ -72,14 +74,14 @@ final readonly class SMTP implements MailerInterface
             $mailer->CharSet = PHPMailer::CHARSET_UTF8;
             $mailer->Encoding = PHPMailer::ENCODING_BASE64;
 
-            $mailer->setFrom($mail->sender->email, $mail->sender->name);
-            $mailer->addReplyTo($mail->sender->email, $mail->sender->name);
+            $mailer->setFrom((string)$mail->sender->email, $mail->sender->name);
+            $mailer->addReplyTo((string)$mail->sender->email, $mail->sender->name);
 
             foreach ($mail->recipients as $recipient) {
                 match ($recipient->type) {
-                    RecipientType::TO => $mailer->addAddress($recipient->email, $recipient->name),
-                    RecipientType::CC => $mailer->addCC($recipient->email, $recipient->name),
-                    RecipientType::BCC => $mailer->addBCC($recipient->email, $recipient->name)
+                    RecipientType::TO => $mailer->addAddress((string)$recipient->email, $recipient->name),
+                    RecipientType::CC => $mailer->addCC((string)$recipient->email, $recipient->name),
+                    RecipientType::BCC => $mailer->addBCC((string)$recipient->email, $recipient->name)
                 };
             }
 

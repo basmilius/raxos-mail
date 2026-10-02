@@ -1,7 +1,7 @@
 {
     "name": "raxos/mail",
     "description": "Mailing system for Raxos.",
-    "license": "mit",
+    "license": "MIT",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "type": "library",
@@ -21,7 +21,8 @@
             "php": "8.5"
         },
         "allow-plugins": {
-            "php-http/discovery": false
+            "php-http/discovery": false,
+            "pestphp/pest-plugin": true
         }
     },
     "repositories": [
@@ -34,8 +35,22 @@
     "require": {
         "jetbrains/phpstorm-attributes": "^1.2",
         "mailgun/mailgun-php": "^v4.3",
+        "php": ">=8.5",
         "phpmailer/phpmailer": "^v7.0",
+        "raxos/contract": "*",
+        "raxos/error": "*",
         "raxos/foundation": "*",
         "wildbit/postmark-php": "^v7.0"
+    },
+    "require-dev": {
+        "pestphp/pest": "^5.0"
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/Fixtures/"
+        ]
+    },
+    "scripts": {
+        "test": "pest --compact"
     }
 }

@@ -30,17 +30,19 @@ final readonly class Mailgun implements MailerInterface
      * @param string $apiKey
      * @param string $domain
      * @param string $endpoint
+     * @param MailgunClient|null $client
      *
      * @author Bas Milius <bas@mili.us>
-     * @since 2.0.0
+     * @since 3.2.0
      */
     public function __construct(
         #[SensitiveParameter] public string $apiKey,
         #[SensitiveParameter] public string $domain,
         #[SensitiveParameter] public string $endpoint = 'https://api.eu.mailgun.net',
+        ?MailgunClient $client = null,
     )
     {
-        $this->client = MailgunClient::create($this->apiKey, $this->endpoint);
+        $this->client = $client ?? MailgunClient::create($this->apiKey, $this->endpoint);
     }
 
     /**
@@ -52,13 +54,13 @@ final readonly class Mailgun implements MailerInterface
     {
         try {
             $builder = new MessageBuilder();
-            $builder->setFromAddress($mail->sender->email, ['full_name' => $mail->sender->name]);
+            $builder->setFromAddress((string)$mail->sender->email, ['full_name' => $mail->sender->name]);
 
             foreach ($mail->recipients as $recipient) {
                 match ($recipient->type) {
-                    RecipientType::TO => $builder->addToRecipient($recipient->email, ['full_name' => $recipient->name]),
-                    RecipientType::CC => $builder->addCcRecipient($recipient->email, ['full_name' => $recipient->name]),
-                    RecipientType::BCC => $builder->addBccRecipient($recipient->email, ['full_name' => $recipient->name])
+                    RecipientType::TO => $builder->addToRecipient((string)$recipient->email, ['full_name' => $recipient->name]),
+                    RecipientType::CC => $builder->addCcRecipient((string)$recipient->email, ['full_name' => $recipient->name]),
+                    RecipientType::BCC => $builder->addBccRecipient((string)$recipient->email, ['full_name' => $recipient->name])
                 };
             }
 

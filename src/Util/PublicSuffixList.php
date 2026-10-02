@@ -6,9 +6,9 @@ namespace Raxos\Mail\Util;
 use RuntimeException;
 use function array_map;
 use function array_pop;
+use function array_reverse;
 use function array_search;
 use function array_slice;
-use function array_unshift;
 use function explode;
 use function fclose;
 use function fgets;
@@ -56,19 +56,25 @@ final class PublicSuffixList
             throw new RuntimeException('Could not open public suffix file.', 500);
         }
 
-        while (($line = fgets($h)) !== false) {
-            $line = trim($line);
+        $suffixes = [];
 
-            // todo(Bas): for now, we do not support wildcards and exceptions. We'll
-            //  support this in a future release.
-            if (empty($line) || str_starts_with($line, '//') || str_starts_with($line, '*') || str_starts_with($line, '!')) {
-                continue;
+        try {
+            while (($line = fgets($h)) !== false) {
+                $line = trim($line);
+
+                // todo(Bas): for now, we do not support wildcards and exceptions. We'll
+                //  support this in a future release.
+                if (empty($line) || str_starts_with($line, '//') || str_starts_with($line, '*') || str_starts_with($line, '!')) {
+                    continue;
+                }
+
+                $suffixes[] = $line;
             }
-
-            array_unshift(self::$suffixes, $line);
+        } finally {
+            fclose($h);
         }
 
-        fclose($h);
+        self::$suffixes = array_reverse($suffixes);
     }
 
     /**

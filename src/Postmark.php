@@ -28,15 +28,17 @@ final readonly class Postmark implements MailerInterface
      * Postmark constructor.
      *
      * @param string $apiKey
+     * @param PostmarkClient|null $client
      *
      * @author Bas Milius <bas@mili.us>
-     * @since 2.0.0
+     * @since 3.2.0
      */
     public function __construct(
-        #[SensitiveParameter] public string $apiKey
+        #[SensitiveParameter] public string $apiKey,
+        ?PostmarkClient $client = null
     )
     {
-        $this->client = new PostmarkClient($this->apiKey);
+        $this->client = $client ?? new PostmarkClient($this->apiKey);
     }
 
     /**
