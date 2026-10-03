@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Raxos\Mail;
 
 use PHPMailer\PHPMailer\PHPMailer;
-use Raxos\Contract\Mail\MailerInterface;
 use Raxos\Mail\Error\MailerFailedException;
 use SensitiveParameter;
 use Throwable;
@@ -17,9 +16,8 @@ use function Raxos\Foundation\isTesting;
  * @package Raxos\Mail
  * @since 2.0.0
  */
-final readonly class SMTP implements MailerInterface
+final readonly class SMTP implements SubmissionMailerInterface
 {
-
     /**
      * SMTP constructor.
      *
@@ -32,7 +30,7 @@ final readonly class SMTP implements MailerInterface
      * @param PHPMailer|null $mailer
      *
      * @author Bas Milius <bas@mili.us>
-     * @since 3.2.0
+     * @since 2.0.0
      */
     public function __construct(
         #[SensitiveParameter] public string $host,
@@ -42,17 +40,35 @@ final readonly class SMTP implements MailerInterface
         public string $helo = '',
         public string $hostname = '',
         private ?PHPMailer $mailer = null
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
-     * @since 3.2.0
+     * @since 2.0.0
      */
     public function send(Mail $mail): bool
     {
+        return $this->sendWithResult($mail)->accepted;
+    }
+
+    /**
+     * Returns SMTP acceptance and the generated Message-ID; tracking options are unsupported.
+     *
+     * @param Mail $mail
+     * @param array<string, scalar> $metadata
+     * @param bool $trackOpens
+     *
+     * @return MailSubmission
+     * @throws MailerFailedException
+     * @author Bas Milius <bas@mili.us>
+     * @since 3.2.0
+     */
+    public function sendWithResult(Mail $mail, array $metadata = [], bool $trackOpens = false): MailSubmission
+    {
         if (isTesting()) {
-            return true;
+            return new MailSubmission(null, null);
         }
 
         try {
@@ -96,7 +112,9 @@ final readonly class SMTP implements MailerInterface
                 $mailer->addStringAttachment($attachment->content, $attachment->name);
             }
 
-            return $mailer->send();
+            $accepted = $mailer->send();
+
+            return new MailSubmission($accepted ? ($mailer->getLastMessageID() ?: null) : null, null, $accepted);
         } catch (Throwable $err) {
             throw new MailerFailedException($err);
         }

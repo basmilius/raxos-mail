@@ -19,7 +19,7 @@ it('passes Postmark the correct sender and recipient fields', function (): void 
         'Sender <sender@example.org>',
         null,
         null
-    );
+    )->willReturn(new \Postmark\Models\PostmarkResponse(['MessageID' => 'test', 'SubmittedAt' => '2026-10-04T00:00:00Z']));
     $mail = new Mail('subject', 'html', 'text', new Sender('sender@example.org', 'Sender'), [new Recipient('to@example.org', 'To')]);
     expect(new Postmark('unused', $client)->send($mail))->toBeTrue();
 });
@@ -39,7 +39,7 @@ it('maps CC, BCC and attachment bytes into Postmark fields', function (): void {
         [1 => 'Bcc <bcc@example.org>'],
         null,
         test()->callback(static fn (array $files): bool => count($files) === 1 && $files[0]->jsonSerialize()['Content'] === base64_encode('bytes') && $files[0]->jsonSerialize()['Name'] === 'unit.txt'),
-    );
+    )->willReturn(new \Postmark\Models\PostmarkResponse(['MessageID' => 'test', 'SubmittedAt' => '2026-10-04T00:00:00Z']));
     $mail = new Mail('subject', 'html', 'text', new Sender('sender@example.org', 'Sender'), [new Recipient('cc@example.org', 'Cc', RecipientType::CC), new Recipient('bcc@example.org', 'Bcc', RecipientType::BCC)], [new Attachment('unit.txt', 'bytes')]);
     expect(new Postmark('unused', $client)->send($mail))->toBeTrue();
 });
@@ -66,4 +66,15 @@ it('does not invoke the API client in testing mode', function (): void {
     } finally {
         putenv($old === false ? 'TESTING' : 'TESTING=' . $old);
     }
+});
+
+
+it('returns the provider identity and forwards delivery metadata and open tracking', function (): void {
+    $client = test()->createMock(PostmarkClient::class);
+    $client->expects(test()->once())->method('sendEmail')->with(
+        test()->anything(), test()->anything(), test()->anything(), test()->anything(), test()->anything(),
+        null, true, test()->anything(), null, null, null, null, null, ['delivery_id' => 'delivery'], 'outbound'
+    )->willReturn(new \Postmark\Models\PostmarkResponse(['MessageID' => 'provider-id', 'SubmittedAt' => '2026-10-04T12:00:00Z']));
+    $result = new Postmark('unused', $client)->sendWithResult(new Mail('subject', 'html', 'text', new Sender('sender@example.org', 'Sender'), []), ['delivery_id' => 'delivery'], true);
+    expect($result->messageId)->toBe('provider-id')->and($result->submittedAt)->toBe('2026-10-04T12:00:00Z');
 });
