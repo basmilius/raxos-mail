@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Raxos\Mail;
 
 /**
+ * Class MailSubmission
+ *
  * Reports provider acceptance and correlation data; acceptance does not establish inbox delivery.
  *
  * @author Bas Milius <bas@mili.us>

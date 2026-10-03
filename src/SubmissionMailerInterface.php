@@ -6,6 +6,8 @@ namespace Raxos\Mail;
 use Raxos\Contract\Mail\{MailerExceptionInterface, MailerInterface};
 
 /**
+ * Interface SubmissionMailerInterface
+ *
  * Extends boolean sending with provider correlation and optional recipient activity tracking.
  *
  * @author Bas Milius <bas@mili.us>
