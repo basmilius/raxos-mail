@@ -41,6 +41,7 @@ final readonly class Email implements JsonSerializable, Stringable
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */
@@ -51,6 +52,7 @@ final readonly class Email implements JsonSerializable, Stringable
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */

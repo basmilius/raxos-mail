@@ -14,6 +14,7 @@ namespace Raxos\Mail;
  */
 final readonly class Mail
 {
+
     /**
      * Mail constructor.
      *

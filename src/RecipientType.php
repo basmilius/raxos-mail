@@ -12,7 +12,9 @@ namespace Raxos\Mail;
  */
 enum RecipientType
 {
+
     case TO;
     case CC;
     case BCC;
+
 }

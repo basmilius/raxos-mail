@@ -53,16 +53,14 @@ final readonly class EmailSuggester
             }
         }
 
-        // note: The suffix is unknown, and there's probably a typo in the provider.
         if (!$isKnownSuffix && $chosenCommonProvider !== null) {
-            return array_map(function (string $domain) use ($chosenCommonProvider, $email, $provider): Email {
+            return array_map(static function (string $domain) use ($chosenCommonProvider, $email, $provider): Email {
                 $domain = str_replace($provider, $chosenCommonProvider, $domain);
 
                 return new Email($email->username, $domain, $email->tag);
             }, $suffixSuggestions);
         }
 
-        // note: There is probably a typo in the provider.
         if ($chosenCommonProvider !== null) {
             $domain = str_replace($provider, $chosenCommonProvider, $email->domain);
 
@@ -71,12 +69,10 @@ final readonly class EmailSuggester
             ];
         }
 
-        // note: The suffix is unknown.
         if (!$isKnownSuffix) {
             return array_map(static fn(string $domain) => new Email($email->username, $domain, $email->tag), $suffixSuggestions);
         }
 
-        // note: There seems nothing wrong with the email address.
         return null;
     }
 

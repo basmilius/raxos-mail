@@ -51,7 +51,6 @@ it('wraps provider request and capacity failures with their cause', function (bo
     }
 })->with([true, false]);
 
-
 it('returns the Mailgun message identifier and passes correlation metadata', function (): void {
     $response = SendResponse::create(['id' => '<provider-id>', 'message' => 'Queued.']);
     $message = test()->createMock(Message::class);

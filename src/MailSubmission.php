@@ -14,6 +14,7 @@ namespace Raxos\Mail;
  */
 final readonly class MailSubmission
 {
+
     /**
      * Retains provider identifiers without storing the mail envelope or body.
      *
@@ -29,4 +30,5 @@ final readonly class MailSubmission
         public ?string $submittedAt,
         public bool $accepted = true
     ) {}
+
 }

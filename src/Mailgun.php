@@ -20,6 +20,7 @@ use function Raxos\Foundation\isTesting;
  */
 final readonly class Mailgun implements SubmissionMailerInterface
 {
+
     /**
      * Retains the configured transport client without rebuilding it for each request.
      *
@@ -52,6 +53,7 @@ final readonly class Mailgun implements SubmissionMailerInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */
@@ -120,4 +122,5 @@ final readonly class Mailgun implements SubmissionMailerInterface
             throw new MailerFailedException($err);
         }
     }
+
 }

@@ -18,6 +18,7 @@ use function Raxos\Foundation\isTesting;
  */
 final readonly class SMTP implements SubmissionMailerInterface
 {
+
     /**
      * SMTP constructor.
      *
@@ -44,6 +45,7 @@ final readonly class SMTP implements SubmissionMailerInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */
@@ -123,4 +125,5 @@ final readonly class SMTP implements SubmissionMailerInterface
             throw new MailerFailedException($err);
         }
     }
+
 }

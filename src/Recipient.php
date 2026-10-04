@@ -33,6 +33,7 @@ readonly class Recipient implements Stringable
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */

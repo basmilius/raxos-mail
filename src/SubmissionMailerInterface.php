@@ -17,6 +17,7 @@ use Raxos\Contract\Mail\MailerInterface;
  */
 interface SubmissionMailerInterface extends MailerInterface
 {
+
     /**
      * Returns submission metadata without treating provider acceptance as recipient delivery.
      *
@@ -33,4 +34,5 @@ interface SubmissionMailerInterface extends MailerInterface
         array $metadata = [],
         bool $trackOpens = false
     ): MailSubmission;
+
 }

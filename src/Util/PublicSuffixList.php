@@ -175,4 +175,5 @@ final class PublicSuffixList
 
         return $isValid;
     }
+
 }

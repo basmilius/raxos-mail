@@ -78,7 +78,6 @@ it('does not invoke the API client in testing mode', function (): void {
     }
 });
 
-
 it('returns the provider identity and forwards delivery metadata and open tracking', function (): void {
     $client = test()->createMock(PostmarkClient::class);
     $client->expects(test()->once())->method('sendEmail')->with(
