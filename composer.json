@@ -37,9 +37,9 @@
         "mailgun/mailgun-php": "^v4.3",
         "php": ">=8.5",
         "phpmailer/phpmailer": "^v7.0",
-        "raxos/contract": "*",
-        "raxos/error": "*",
-        "raxos/foundation": "*",
+        "raxos/contract": "^3.2",
+        "raxos/error": "^3.2",
+        "raxos/foundation": "^3.2",
         "wildbit/postmark-php": "^v7.0"
     },
     "require-dev": {
@@ -52,5 +52,10 @@
     },
     "scripts": {
         "test": "pest --compact"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "3.3.x-dev"
+        }
     }
 }

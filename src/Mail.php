@@ -6,13 +6,14 @@ namespace Raxos\Mail;
 /**
  * Class Mail
  *
+ * Carries transport-independent message content, recipients and an optional reply address.
+ *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Mail
  * @since 2.0.0
  */
 final readonly class Mail
 {
-
     /**
      * Mail constructor.
      *
@@ -22,6 +23,7 @@ final readonly class Mail
      * @param Sender $sender
      * @param Recipient[] $recipients
      * @param Attachment[] $attachments
+     * @param Sender|null $replyTo
      *
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
@@ -32,7 +34,10 @@ final readonly class Mail
         public string $text,
         public Sender $sender,
         public array $recipients,
-        public array $attachments = []
-    ) {}
+        public array $attachments = [],
+        public ?Sender $replyTo = null
+    )
+    {
+    }
 
 }

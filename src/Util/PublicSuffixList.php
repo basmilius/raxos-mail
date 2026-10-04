@@ -33,6 +33,13 @@ final class PublicSuffixList
 
     private const array PRIORITY_SUFFIXES = ['com'];
 
+    /**
+     * Caches public suffixes used to distinguish registrable domains from suffix-only names.
+     *
+     * @var array
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
+     */
     private static array $suffixes = [];
 
     /**
@@ -86,7 +93,10 @@ final class PublicSuffixList
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public static function findSuggestionsForInvalidDomain(string $domain, int $count = 3): array
+    public static function findSuggestionsForInvalidDomain(
+        string $domain,
+        int $count = 3
+    ): array
     {
         $parts = explode('.', $domain);
         $suffix = array_pop($parts);
@@ -121,11 +131,12 @@ final class PublicSuffixList
      *
      * @return array|null
      * @author Bas Milius <bas@mili.us>
-     * @since 3.2.0
+     * @since 1.0.0
      */
     public static function parseDomain(string $domain): ?array
     {
         $normalizedDomain = strtolower($domain);
+
         foreach (self::$suffixes as $tld) {
             if (!str_ends_with($normalizedDomain, '.' . $tld)) {
                 continue;
@@ -150,7 +161,10 @@ final class PublicSuffixList
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public static function validateDomain(string $domain, ?array &$suggestions = null): bool
+    public static function validateDomain(
+        string $domain,
+        ?array &$suggestions = null
+    ): bool
     {
         [, $suffix] = self::parseDomain($domain);
         $isValid = $suffix !== null;
@@ -161,5 +175,4 @@ final class PublicSuffixList
 
         return $isValid;
     }
-
 }

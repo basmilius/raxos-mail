@@ -20,7 +20,6 @@ use function Raxos\Foundation\isTesting;
  */
 final readonly class Mailgun implements SubmissionMailerInterface
 {
-
     /**
      * Retains the configured transport client without rebuilding it for each request.
      *
@@ -46,7 +45,8 @@ final readonly class Mailgun implements SubmissionMailerInterface
         #[SensitiveParameter] public string $domain,
         #[SensitiveParameter] public string $endpoint = 'https://api.eu.mailgun.net',
         ?MailgunClient $client = null,
-    ) {
+    )
+    {
         $this->client = $client ?? MailgunClient::create($this->apiKey, $this->endpoint);
     }
 
@@ -72,7 +72,11 @@ final readonly class Mailgun implements SubmissionMailerInterface
      * @author Bas Milius <bas@mili.us>
      * @since 3.2.0
      */
-    public function sendWithResult(Mail $mail, array $metadata = [], bool $trackOpens = false): MailSubmission
+    public function sendWithResult(
+        Mail $mail,
+        array $metadata = [],
+        bool $trackOpens = false
+    ): MailSubmission
     {
         try {
             $builder = new MessageBuilder();
@@ -84,6 +88,10 @@ final readonly class Mailgun implements SubmissionMailerInterface
                     RecipientType::CC => $builder->addCcRecipient((string)$recipient->email, ['full_name' => $recipient->name]),
                     RecipientType::BCC => $builder->addBccRecipient((string)$recipient->email, ['full_name' => $recipient->name])
                 };
+            }
+
+            if ($mail->replyTo !== null) {
+                $builder->setReplyToAddress((string)$mail->replyTo->email, ['full_name' => $mail->replyTo->name]);
             }
 
             $builder->setSubject($mail->subject);
@@ -112,5 +120,4 @@ final readonly class Mailgun implements SubmissionMailerInterface
             throw new MailerFailedException($err);
         }
     }
-
 }

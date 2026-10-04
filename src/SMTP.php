@@ -40,7 +40,8 @@ final readonly class SMTP implements SubmissionMailerInterface
         public string $helo = '',
         public string $hostname = '',
         private ?PHPMailer $mailer = null
-    ) {
+    )
+    {
     }
 
     /**
@@ -65,7 +66,11 @@ final readonly class SMTP implements SubmissionMailerInterface
      * @author Bas Milius <bas@mili.us>
      * @since 3.2.0
      */
-    public function sendWithResult(Mail $mail, array $metadata = [], bool $trackOpens = false): MailSubmission
+    public function sendWithResult(
+        Mail $mail,
+        array $metadata = [],
+        bool $trackOpens = false
+    ): MailSubmission
     {
         if (isTesting()) {
             return new MailSubmission(null, null);
@@ -94,7 +99,8 @@ final readonly class SMTP implements SubmissionMailerInterface
             $mailer->Encoding = PHPMailer::ENCODING_BASE64;
 
             $mailer->setFrom((string)$mail->sender->email, $mail->sender->name);
-            $mailer->addReplyTo((string)$mail->sender->email, $mail->sender->name);
+            $replyTo = $mail->replyTo ?? $mail->sender;
+            $mailer->addReplyTo((string)$replyTo->email, $replyTo->name);
 
             foreach ($mail->recipients as $recipient) {
                 match ($recipient->type) {
@@ -119,5 +125,4 @@ final readonly class SMTP implements SubmissionMailerInterface
             throw new MailerFailedException($err);
         }
     }
-
 }

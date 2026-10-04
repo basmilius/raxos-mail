@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace Raxos\Mail;
 
-use Raxos\Contract\Mail\{MailerExceptionInterface, MailerInterface};
+use Raxos\Contract\Mail\MailerExceptionInterface;
+use Raxos\Contract\Mail\MailerInterface;
 
 /**
  * Interface SubmissionMailerInterface
@@ -16,19 +17,20 @@ use Raxos\Contract\Mail\{MailerExceptionInterface, MailerInterface};
  */
 interface SubmissionMailerInterface extends MailerInterface
 {
-
     /**
      * Returns submission metadata without treating provider acceptance as recipient delivery.
      *
      * @param Mail $mail
-     * @param array<string, scalar> $metadata Provider correlation data; unsupported transports may ignore it.
-     * @param bool $trackOpens Requests tracking only when the transport supports it.
+     * @param bool $trackOpens
      *
      * @return MailSubmission
      * @throws MailerExceptionInterface
      * @author Bas Milius <bas@mili.us>
      * @since 3.2.0
      */
-    public function sendWithResult(Mail $mail, array $metadata = [], bool $trackOpens = false): MailSubmission;
-
+    public function sendWithResult(
+        Mail $mail,
+        array $metadata = [],
+        bool $trackOpens = false
+    ): MailSubmission;
 }

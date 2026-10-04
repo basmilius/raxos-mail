@@ -2,7 +2,14 @@
 declare(strict_types=1);
 
 use PHPMailer\PHPMailer\PHPMailer;
-use Raxos\Mail\{Attachment, Email, Mail, Recipient, RecipientType, Sender, SMTP};
+use Raxos\Mail\Attachment;
+use Raxos\Mail\Email;
+use Raxos\Mail\Error\MailerFailedException;
+use Raxos\Mail\Mail;
+use Raxos\Mail\Recipient;
+use Raxos\Mail\RecipientType;
+use Raxos\Mail\Sender;
+use Raxos\Mail\SMTP;
 
 covers(SMTP::class);
 
@@ -28,10 +35,11 @@ it('converts SMTP failures to a Raxos error with the original cause', function (
     $failure = new RuntimeException('transport failure');
     $mailer->method('send')->willThrowException($failure);
     $mail = new Mail('subject', 'html', 'text', new Sender('sender@example.org', 'Sender'), [new Recipient('to@example.org', 'To')]);
+
     try {
         new SMTP('unused', mailer: $mailer)->send($mail);
         test()->fail('Expected transport failure.');
-    } catch (Raxos\Mail\Error\MailerFailedException $error) {
+    } catch (MailerFailedException $error) {
         expect($error->getPrevious())->toBe($failure);
     }
 });
@@ -60,6 +68,7 @@ it('does not carry recipients, reply addresses or attachments into the next mess
 it('returns the transport result without attempting to send in testing mode', function (): void {
     $old = getenv('TESTING');
     putenv('TESTING=true');
+
     try {
         $mailer = test()->createMock(PHPMailer::class);
         $mailer->expects(test()->never())->method('send');
@@ -68,3 +77,12 @@ it('returns the transport result without attempting to send in testing mode', fu
         putenv($old === false ? 'TESTING' : 'TESTING=' . $old);
     }
 });
+
+it('returns the SMTP acceptance and message identifier with a separate Reply-To', function (bool $accepted): void {
+    $mailer = test()->createPartialMock(PHPMailer::class, ['send', 'getLastMessageID']);
+    $mailer->method('send')->willReturn($accepted);
+    $mailer->method('getLastMessageID')->willReturn('<smtp-unit>');
+    $result = new SMTP('unused', mailer: $mailer)->sendWithResult(new Mail('subject', 'html', 'text', new Sender('sender@example.org', 'Sender'), [], replyTo: new Sender('reply@example.org', 'Replies')));
+    expect($result->accepted)->toBe($accepted)->and($result->messageId)->toBe($accepted ? '<smtp-unit>' : null)
+        ->and($mailer->getReplyToAddresses())->toBe([['reply@example.org', 'Replies']]);
+})->with([true, false]);

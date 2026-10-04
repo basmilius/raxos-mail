@@ -22,7 +22,6 @@ use function strval;
  */
 final readonly class Postmark implements SubmissionMailerInterface
 {
-
     /**
      * Retains the configured transport client without rebuilding it for each request.
      *
@@ -44,7 +43,8 @@ final readonly class Postmark implements SubmissionMailerInterface
     public function __construct(
         #[SensitiveParameter] public string $apiKey,
         ?PostmarkClient $client = null
-    ) {
+    )
+    {
         $this->client = $client ?? new PostmarkClient($this->apiKey);
     }
 
@@ -72,17 +72,21 @@ final readonly class Postmark implements SubmissionMailerInterface
      * @author Bas Milius <bas@mili.us>
      * @since 3.2.0
      */
-    public function sendWithResult(Mail $mail, array $metadata = [], bool $trackOpens = false): MailSubmission
+    public function sendWithResult(
+        Mail $mail,
+        array $metadata = [],
+        bool $trackOpens = false
+    ): MailSubmission
     {
         if (isTesting()) {
             return new MailSubmission(null, null);
         }
 
-        $to = array_map(strval(...), array_filter($mail->recipients, static fn (Recipient $recipient) => $recipient->type === RecipientType::TO));
-        $cc = array_map(strval(...), array_filter($mail->recipients, static fn (Recipient $recipient) => $recipient->type === RecipientType::CC));
-        $bcc = array_map(strval(...), array_filter($mail->recipients, static fn (Recipient $recipient) => $recipient->type === RecipientType::BCC));
+        $to = array_map(strval(...), array_filter($mail->recipients, static fn(Recipient $recipient) => $recipient->type === RecipientType::TO));
+        $cc = array_map(strval(...), array_filter($mail->recipients, static fn(Recipient $recipient) => $recipient->type === RecipientType::CC));
+        $bcc = array_map(strval(...), array_filter($mail->recipients, static fn(Recipient $recipient) => $recipient->type === RecipientType::BCC));
 
-        $attachments = array_map(static fn (Attachment $attachment) => PostmarkAttachment::fromRawData(
+        $attachments = array_map(static fn(Attachment $attachment) => PostmarkAttachment::fromRawData(
             $attachment->content,
             $attachment->name
         ), $mail->attachments);
@@ -107,7 +111,7 @@ final readonly class Postmark implements SubmissionMailerInterface
                 htmlBody: $mail->html,
                 textBody: $mail->text,
                 trackOpens: $trackOpens,
-                replyTo: (string)$mail->sender,
+                replyTo: (string)($mail->replyTo ?? $mail->sender),
                 cc: $cc,
                 bcc: $bcc,
                 attachments: $attachments,
@@ -124,5 +128,4 @@ final readonly class Postmark implements SubmissionMailerInterface
             throw new MailerFailedException($err);
         }
     }
-
 }
