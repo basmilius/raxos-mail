@@ -40,9 +40,7 @@ final readonly class SMTP implements SubmissionMailerInterface
         public string $helo = '',
         public string $hostname = '',
         private ?PHPMailer $mailer = null
-    )
-    {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

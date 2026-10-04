@@ -40,8 +40,7 @@ it('wraps provider request and capacity failures with their cause', function (bo
     $client->method('messages')->willReturn($message);
     $cause = $limit
         ? new LimitExceeded('limit')
-        : new class('offline') extends RuntimeException implements ClientExceptionInterface {
-        };
+        : new class('offline') extends RuntimeException implements ClientExceptionInterface {};
     $message->method('send')->willThrowException($cause);
 
     try {

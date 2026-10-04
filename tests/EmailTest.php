@@ -11,7 +11,7 @@ it('round trips email addresses with tags', function (): void {
 });
 
 it('rejects malformed email addresses', function (string $address): void {
-    expect(fn (): Email => Email::fromString($address))->toThrow(Raxos\Mail\Error\InvalidEmailAddressException::class);
+    expect(fn(): Email => Email::fromString($address))->toThrow(Raxos\Mail\Error\InvalidEmailAddressException::class);
 })->with(['', 'user', 'user@', '@example.org', 'a@@example.org', "user\n@example.org"]);
 
 it('retains email tags and formatted sender and recipient names', function (string $address): void {

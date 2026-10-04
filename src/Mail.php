@@ -36,8 +36,6 @@ final readonly class Mail
         public array $recipients,
         public array $attachments = [],
         public ?Sender $replyTo = null
-    )
-    {
-    }
+    ) {}
 
 }

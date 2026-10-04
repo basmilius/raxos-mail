@@ -20,6 +20,7 @@ final readonly class MailSubmission
      * @param string|null $messageId
      * @param string|null $submittedAt
      * @param bool $accepted
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 3.2.0
      */
@@ -27,7 +28,5 @@ final readonly class MailSubmission
         public ?string $messageId,
         public ?string $submittedAt,
         public bool $accepted = true
-    )
-    {
-    }
+    ) {}
 }
